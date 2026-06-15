@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>أحمد ورحمة — ٢ نوفمبر</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700&family=Aref+Ruqaa:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --sky-deep:   #061a22;
+  --sky-mid:    #113a4a;
+  --sky-soft:   #cce1e8;
+  --sky-pale:   #eaf2f5;
+  --gold:       #d4af37;
+  --gold-light: #f3e5ab;
+  --gold-dark:  #9b7e21;
+  --text-soft:  #5a7a94;
+}
+html{scroll-behavior:smooth;scroll-snap-type:y mandatory}
+body{background:#0a1118;overflow-x:hidden;font-family:'Cairo',sans-serif}
+#lang-toggle {
+  position: fixed; top: 1.5rem; right: 1.5rem; z-index: 10000;
+  background: rgba(6, 26, 34, 0.6); backdrop-filter: blur(8px);
+  border: 1px solid rgba(212, 175, 55, 0.4); color: var(--gold-light);
+  padding: 0.4rem 0.8rem; border-radius: 99px; display: flex;
+  align-items: center; gap: 0.4rem; cursor: pointer;
+  font-family: 'Cairo', sans-serif; font-size: 0.8rem; transition: all 0.3s ease;
+}
+#lang-toggle:hover { background: rgba(6, 26, 34, 0.9); border-color: var(--gold); }
+[dir="ltr"] #lang-toggle { right: auto; left: 1.5rem; }
+
+/* GATE OVERLAY */
+#gate-overlay {
+  position: fixed; inset: 0; z-index: 9999; display: flex; overflow: hidden;
+  background: #000; transition: visibility 1.5s ease;
+}
+.gate {
+  width: 50%; height: 100%; background: linear-gradient(to right, #041016, #0a202a);
+  position: relative; transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+  border-right: 1px solid rgba(212, 175, 55, 0.3); display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.gate::before {
+  content:''; position: absolute; inset:0;
+  background-image: radial-gradient(rgba(212,175,55,0.05) 1px, transparent 1px);
+  background-size: 20px 20px; opacity: 0.5;
+}
+.right-gate {
+  background: linear-gradient(to left, #041016, #0a202a);
+  border-right: none; border-left: 1px solid rgba(212, 175, 55, 0.3);
+}
+.gate-seal {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 90px; height: 90px; background: radial-gradient(circle, #f3e5ab, #d4af37, #9b7e21);
+  border-radius: 50%; box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; z-index: 10; transition: transform 0.4s ease, opacity 0.5s ease;
+}
+.gate-seal::before {
+  content: ''; position: absolute; inset: 4px;
+  border: 1px solid rgba(0,0,0,0.2); border-radius: 50%;
+}
+.gate-seal:hover { transform: translate(-50%, -50%) scale(1.05); }
+.seal-text { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: #111; font-weight: bold; }
+.gate-hint {
+  position: absolute; top: 120%; width: 200px; text-align: center;
+  color: var(--gold); font-family: 'Cairo', sans-serif; font-size: 0.85rem; letter-spacing: 0.1em;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+#gate-overlay.open .left-gate { transform: translateX(-100%); }
+#gate-overlay.open .right-gate { transform: translateX(100%); }
+[dir="ltr"] #gate-overlay.open .left-gate { transform: translateX(-100%); }
+[dir="ltr"] #gate-overlay.open .right-gate { transform: translateX(100%); }
+#gate-overlay.open .gate-seal { opacity: 0; transform: translate(-50%, -50%) scale(0.5); pointer-events: none; }
+#gate-overlay.open { visibility: hidden; transition-delay: 1.2s; }
+
+.page{ min-height:100svh; scroll-snap-align:start; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden; }
+
+/* HERO ARCH DESIGN */
+#hero { background: #061116; padding: 4rem 1rem 6rem; }
+.hero-bg-glow { position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(212,175,55,0.1) 0%, transparent 60%); pointer-events: none; }
+.hero-arch {
+  position: relative; z-index: 2; width: 90%; max-width: 420px;
+  border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 200px 200px 0 0;
+  padding: 5rem 2rem 3rem; background: linear-gradient(180deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%);
+  display: flex; flex-direction: column; align-items: center; box-shadow: 0 -10px 40px rgba(0,0,0,0.4);
+}
+.hero-basmala { font-family: 'Amiri', serif; font-size: clamp(0.9rem, 2.5vw, 1.1rem); color: rgba(255,255,255,0.5); letter-spacing: 0.1em; margin-bottom: 1.5rem; }
+.hero-label { font-size: 0.8rem; letter-spacing: 0.4em; color: var(--gold-light); font-weight: 300; text-transform: uppercase; margin-bottom: 1.5rem; }
+.hero-names-wrap { display: flex; flex-direction: column; align-items: center; margin: 0.5rem 0 2.5rem; }
+.hero-name { font-family: 'Aref Ruqaa', serif; font-size: clamp(4rem, 14vw, 7rem); line-height: 0.9; color: white; text-shadow: 0 4px 16px rgba(212, 175, 55, 0.3); }
+[lang="en"] .hero-name { font-family: 'Playfair Display', serif; }
+.hero-amp { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(2rem, 6vw, 3.5rem); color: var(--gold); margin: -0.5rem 0; z-index: 2; }
+.hero-tagline { font-family: 'Cairo', sans-serif; font-weight: 300; font-size: 1rem; color: rgba(255,255,255,0.6); letter-spacing: 0.1em; margin-bottom: 1.5rem; }
+.hero-date-box {
+  display: flex; align-items: center; gap: 0.8rem; font-family: 'Amiri', serif; color: var(--gold-light);
+  border-top: 1px solid rgba(212, 175, 55, 0.3); border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding: 0.6rem 1.5rem;
+}
+[lang="en"] .hero-date-box { font-family: 'Playfair Display', serif; }
+.day, .year { font-size: 1.4rem; }
+.month { font-size: 1rem; letter-spacing: 0.1em; }
+.scroll-down {
+  position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  color: rgba(212, 175, 55, 0.6); font-size: 0.72rem; letter-spacing: 0.25em; font-weight: 300;
+  animation: bob 2.4s ease-in-out infinite; cursor: pointer; z-index: 10;
+}
+.scroll-down svg { width: 22px; opacity: 0.8; }
+@keyframes bob { 0%,100% {transform: translateX(-50%) translateY(0);} 50% {transform: translateX(-50%) translateY(7px);} }
+
+/* COUNTDOWN */
+#countdown{ background: linear-gradient(160deg, var(--sky-pale) 0%, #d8e5ec 100%); }
+.cd-inner{ position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; width: 100%; max-width: 560px; }
+.cd-eyebrow{ font-size: .68rem; letter-spacing: .35em; color: var(--sky-mid); text-transform: uppercase; font-weight: 300; margin-bottom: 1rem; }
+.cd-divider-line{ width: 60px; height: 1px; background: linear-gradient(90deg, transparent, var(--sky-mid), transparent); margin: .6rem auto 1.4rem; }
+.cd-title{ font-family: 'Amiri', serif; font-size: clamp(1.4rem, 4vw, 2rem); color: var(--sky-deep); margin-bottom: .5rem; line-height: 1.4; }
+.cd-subtitle{ color: var(--text-soft); font-size: 1rem; font-weight: 600; margin-bottom: 2.5rem; letter-spacing: .05em; }
+.cd-grid{ display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+.cd-box{ background: white; border-radius: 12px; padding: 1.6rem .5rem 1.2rem; box-shadow: 0 4px 20px rgba(17, 58, 74, 0.08); position: relative; overflow: hidden; }
+.cd-box::before{ content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--sky-mid), var(--sky-soft)); }
+.cd-num{ font-family: 'Amiri', serif; font-size: clamp(2rem, 7vw, 3.2rem); color: var(--sky-deep); display: block; line-height: 1; font-weight: 700; }
+.cd-lbl{ font-size: .62rem; letter-spacing: .18em; color: var(--text-soft); margin-top: .4rem; display: block; font-weight: 400; }
+
+.calendar-btn {
+  display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 2.5rem; padding: 0.8rem 2rem;
+  border: 1px solid var(--sky-mid); border-radius: 99px;
+  color: var(--sky-mid); font-family: 'Cairo', sans-serif; font-weight: 600; text-decoration: none; font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+.calendar-btn:hover { background: var(--sky-mid); color: white; }
+.calendar-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+/* WELCOME + SLIDER */
+#welcome{ background: linear-gradient(170deg, #d8e5ec 0%, #c6d9e3 100%); flex-direction: column; padding: 5rem 2rem; min-height: 100svh; justify-content: flex-start; gap: 3.5rem; }
+.welcome-text{ max-width: 580px; width: 100%; text-align: center; }
+.welcome-eyebrow{ font-size: .68rem; letter-spacing: .35em; color: var(--sky-deep); text-transform: uppercase; font-weight: 300; margin-bottom: .8rem; }
+.welcome-title{ font-family: 'Amiri', serif; font-size: clamp(1.7rem, 4.5vw, 2.4rem); color: var(--sky-deep); margin-bottom: 1.2rem; line-height: 1.4; }
+.welcome-body{ font-size: .95rem; line-height: 2; color: var(--text-soft); font-weight: 300; max-width: 480px; margin: 0 auto; color: var(--sky-deep); opacity: 0.9; }
+.moments-label{ font-size: .68rem; letter-spacing: .35em; color: var(--sky-deep); text-transform: uppercase; font-weight: 300; text-align: center; margin-bottom: 1rem; }
+.slider-wrap{ width: 100%; max-width: 540px; position: relative; border-radius: 16px; overflow: hidden; box-shadow: 0 16px 60px rgba(10,42,61,.12); aspect-ratio: 4/3; margin: 0 auto; }
+.slides{ display: flex; width: 100%; height: 100%; transition: transform .8s cubic-bezier(.4,0,.2,1); }
+.slide{ min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Amiri', serif; color: rgba(255,255,255,.55); font-size: 1.1rem; letter-spacing: .05em; flex-shrink: 0; }
+.slide:nth-child(1){ background: linear-gradient(135deg, #113a4a, #1a4a6e); }
+.slide:nth-child(2){ background: linear-gradient(135deg, #0a2a3d, #113a4a); }
+.slide:nth-child(3){ background: linear-gradient(135deg, #1a4a6e, #2c6a8c); }
+.slide:nth-child(4){ background: linear-gradient(135deg, #061a22, #0a2a3d); }
+.slide:nth-child(5){ background: linear-gradient(135deg, #113a4a, #061a22); }
+.slide-photo-hint{ display: flex; flex-direction: column; align-items: center; gap: .5rem; opacity: .4; }
+.slide-photo-hint svg{ width: 40px; stroke: white; fill: none; stroke-width: 1.5; }
+.slider-dots{ display: flex; gap: .5rem; justify-content: center; margin-top: .9rem; }
+.slider-dot{ width: 7px; height: 7px; border-radius: 50%; background: rgba(17,58,74,.25); transition: background .3s, transform .3s; cursor: pointer; }
+.slider-dot.active{ background: var(--sky-deep); transform: scale(1.3); }
+
+/* PROGRAM + VENUE */
+#program{ background: linear-gradient(175deg, #eaf2f5 0%, #d8e5ec 100%); padding: 5rem 2rem 4rem; justify-content: flex-start; min-height: 100svh; }
+.prog-inner{ max-width: 600px; width: 100%; margin: 0 auto; }
+.prog-eyebrow{ font-size: .68rem; letter-spacing: .35em; color: var(--sky-mid); text-transform: uppercase; font-weight: 300; display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+.prog-eyebrow::before, .prog-eyebrow::after{ content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--sky-soft), transparent); }
+.prog-eyebrow::before{ background: linear-gradient(270deg, var(--sky-soft), transparent); }
+.prog-title{ font-family: 'Amiri', serif; font-size: clamp(1.8rem, 5vw, 2.5rem); color: var(--sky-deep); text-align: center; margin-bottom: 2.5rem; }
+.timeline{ display: flex; flex-direction: column; gap: 0; }
+.tl-item{ display: grid; grid-template-columns: 80px 28px 1fr; align-items: flex-start; gap: 0 1rem; padding-bottom: 1.6rem; position: relative; }
+.tl-time{ font-family: 'Amiri', serif; font-size: .95rem; color: var(--sky-mid); text-align: end; padding-top: 2px; font-weight: 700; letter-spacing: .03em; }
+[lang="en"] .tl-time { font-family: 'Playfair Display', serif; }
+.tl-dot-col{ display: flex; flex-direction: column; align-items: center; }
+.tl-dot{ width: 14px; height: 14px; border-radius: 50%; background: white; border: 2.5px solid var(--sky-mid); flex-shrink: 0; margin-top: 3px; z-index: 1; box-shadow: 0 0 0 4px rgba(17,58,74,.08); }
+.tl-line{ width: 2px; flex: 1; background: linear-gradient(180deg, var(--sky-soft), rgba(200,223,240,.3)); margin-top: 4px; }
+.tl-item:last-child .tl-line{ display: none; }
+.tl-body{ padding-bottom: .2rem; }
+.tl-event{ font-family: 'Amiri', serif; font-size: 1.05rem; color: var(--sky-deep); margin-bottom: .15rem; font-weight: 700; }
+.tl-desc{ font-size: .82rem; color: var(--text-soft); font-weight: 300; line-height: 1.6; color: rgba(17,58,74,.8); }
+.venue-card{ background: white; border-radius: 16px; box-shadow: 0 8px 40px rgba(17,58,74,.08); overflow: hidden; margin-top: 2.5rem; }
+.venue-img-wrap{ width: 100%; aspect-ratio: 16/7; background: linear-gradient(135deg, #113a4a, #1a4a6e); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.4); font-size: .9rem; font-family: 'Cairo', sans-serif; font-weight: 300; flex-direction: column; gap: .5rem; }
+.venue-img-icon{ font-size: 2.5rem; opacity: .35; }
+.venue-info{ padding: 1.5rem; }
+.venue-name{ font-family: 'Amiri', serif; font-size: 1.4rem; color: var(--sky-deep); margin-bottom: .3rem; }
+.venue-addr{ font-size: .85rem; color: var(--text-soft); font-weight: 300; line-height: 1.7; color: rgba(17,58,74,.8); }
+.map-btn{ display: inline-flex; align-items: center; gap: .5rem; margin-top: 1.2rem; padding: .75rem 1.8rem; border-radius: 8px; background: linear-gradient(135deg, var(--sky-mid), var(--sky-deep)); color: white; text-decoration: none; font-size: .88rem; font-family: 'Cairo', sans-serif; font-weight: 600; transition: transform .2s, box-shadow .2s; box-shadow: 0 4px 18px rgba(17,58,74,.2); }
+.map-btn:hover{ transform: translateY(-2px); box-shadow: 0 8px 28px rgba(17,58,74,.3); }
+.map-btn svg{ width: 16px; height: 16px; fill: none; stroke: white; stroke-width: 2; }
+.reveal{ opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity: 1; transform: none; }
+@media(max-width:480px){ .cd-grid{ grid-template-columns: repeat(2,1fr); } .cd-num{ font-size: 2rem; } #welcome{ gap: 2.5rem; padding: 3.5rem 1.2rem; } }
+</style>
+</head>
+<body>
+
+<div id="lang-toggle" onclick="toggleLanguage()">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+  <span id="lang-text" data-i18n="langText">EN</span>
+</div>
+
+<!-- GATE FOLD OPENING -->
+<div id="gate-overlay">
+  <div class="gate left-gate"></div>
+  <div class="gate right-gate"></div>
+  <div class="gate-seal" onclick="openGate()">
+    <div class="seal-text" data-i18n="monogram">A&R</div>
+    <span class="gate-hint" data-i18n="tapHint">اضغط لفتح الدعوة</span>
+  </div>
+</div>
+
+<main id="invitation" style="opacity:0;transition:opacity .8s ease .2s">
+
+  <section class="page" id="hero">
+    <div class="hero-bg-glow"></div>
+    <div class="hero-arch">
+      <p class="hero-basmala reveal" data-i18n="basmala">بسم الله الرحمن الرحيم</p>
+      <p class="hero-label reveal" data-i18n="heroLabel">حفل زفاف</p>
+      
+      <div class="hero-names-wrap reveal">
+        <div class="hero-name" data-i18n="name1">أحمد</div>
+        <div class="hero-amp" data-i18n="amp">&amp;</div>
+        <div class="hero-name" data-i18n="name2">رحمة</div>
+      </div>
+
+      <p class="hero-tagline reveal" data-i18n="tagline">لنبدأ الحياة سوياً</p>
+      
+      <div class="hero-date-box reveal">
+         <span class="day" data-i18n="dayNum">٢</span>
+         <span class="month" data-i18n="monthName">نوفمبر</span>
+         <span class="year" data-i18n="yearNum">٢٠٢٦</span>
+      </div>
+    </div>
+
+    <div class="scroll-down" onclick="scrollToSec('countdown')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      <span data-i18n="scrollDown">اسكرول داون</span>
+    </div>
+  </section>
+
+  <section class="page" id="countdown">
+    <div class="cd-inner">
+      <p class="cd-eyebrow reveal" data-i18n="cdEyebrow">العد التنازلي</p>
+      <div class="cd-divider-line"></div>
+      <h2 class="cd-title reveal" data-i18n="cdTitle">العد التنازلي حتى تاريخ الفرح</h2>
+      <p class="cd-subtitle reveal" data-i18n="cdSubtitle">جهزوا نفسكم للرقص!</p>
+
+      <div class="cd-grid">
+        <div class="cd-box reveal">
+          <span class="cd-num" id="cd-d">—</span>
+          <span class="cd-lbl" data-i18n="days">أيام</span>
+        </div>
+        <div class="cd-box reveal">
+          <span class="cd-num" id="cd-h">—</span>
+          <span class="cd-lbl" data-i18n="hours">ساعات</span>
+        </div>
+        <div class="cd-box reveal">
+          <span class="cd-num" id="cd-m">—</span>
+          <span class="cd-lbl" data-i18n="mins">دقائق</span>
+        </div>
+        <div class="cd-box reveal">
+          <span class="cd-num" id="cd-s">—</span>
+          <span class="cd-lbl" data-i18n="secs">ثوانٍ</span>
+        </div>
+      </div>
+
+      <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ahmed+%26+Rahma+Wedding&dates=20261102T170000/20261103T010000&details=We+are+happy+to+have+you&location=Ras+El+Bar+-+Armed+Forces+Club" target="_blank" class="calendar-btn reveal" id="cal-link">
+        <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/></svg>
+        <span data-i18n="addToCal">إضافة إلى التقويم</span>
+      </a>
+
+    </div>
+
+    <div class="scroll-down" onclick="scrollToSec('welcome')" style="color:rgba(26,74,110,.5)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      <span style="font-size:.7rem;letter-spacing:.25em;font-weight:300" data-i18n="scrollDown">اسكرول داون</span>
+    </div>
+  </section>
+
+  <section class="page" id="welcome">
+    <div class="welcome-text">
+      <p class="welcome-eyebrow reveal" data-i18n="welcomeEyebrow">أهلاً وسهلاً بكم</p>
+      <h2 class="welcome-title reveal" data-i18n="welcomeTitle">يسعدنا أن نُشارككم<br/>فرحة هذا اليوم الجميل</h2>
+      <p class="welcome-body reveal" data-i18n="welcomeBody">
+        بقلوب مليئة بالفرح والامتنان، نتشرف بدعوتكم لتكونوا جزءاً من أجمل لحظات حياتنا. حضوركم هو أثمن هدية نتمناها، فلا يكتمل فرحنا إلا بوجودكم بيننا. نسأل الله أن يجمعنا دائماً على الخير والمحبة.
+      </p>
+    </div>
+
+    <div style="width:100%;max-width:540px">
+      <p class="moments-label reveal" data-i18n="momentsLabel">أجمل لحظاتنا</p>
+      <div class="slider-wrap reveal" dir="ltr">
+        <div class="slides" id="slides">
+          <div class="slide"><div class="slide-photo-hint"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span data-i18n="pic1">صورة ١</span></div></div>
+          <div class="slide"><div class="slide-photo-hint"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span data-i18n="pic2">صورة ٢</span></div></div>
+          <div class="slide"><div class="slide-photo-hint"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span data-i18n="pic3">صورة ٣</span></div></div>
+          <div class="slide"><div class="slide-photo-hint"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span data-i18n="pic4">صورة ٤</span></div></div>
+          <div class="slide"><div class="slide-photo-hint"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span data-i18n="pic5">صورة ٥</span></div></div>
+        </div>
+      </div>
+      <div class="slider-dots" id="slider-dots" dir="ltr">
+        <div class="slider-dot active" onclick="goSlide(0)"></div>
+        <div class="slider-dot" onclick="goSlide(1)"></div>
+        <div class="slider-dot" onclick="goSlide(2)"></div>
+        <div class="slider-dot" onclick="goSlide(3)"></div>
+        <div class="slider-dot" onclick="goSlide(4)"></div>
+      </div>
+    </div>
+    
+    <div class="scroll-down" onclick="scrollToSec('program')" style="color:rgba(26,74,110,.5); bottom:-2rem;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      <span style="font-size:.7rem;letter-spacing:.25em;font-weight:300" data-i18n="scrollDown">اسكرول داون</span>
+    </div>
+  </section>
+
+  <section class="page" id="program">
+    <div class="prog-inner">
+      <div class="prog-eyebrow reveal" data-i18n="progEyebrow">برنامج الحفلة</div>
+      <h2 class="prog-title reveal" data-i18n="progTitle">تفاصيل اليوم</h2>
+
+      <div class="timeline">
+        <div class="tl-item reveal">
+          <span class="tl-time" data-i18n="time1">٥:٠٠ م</span>
+          <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-event" data-i18n="event1">استقبال الضيوف</div>
+            <div class="tl-desc" data-i18n="desc1">الترحيب بالمدعوين وتناول المشروبات</div>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <span class="tl-time" data-i18n="time2">٦:٠٠ م</span>
+          <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-event" data-i18n="event2">العقد الشرعي</div>
+            <div class="tl-desc" data-i18n="desc2">توقيع عقد الزواج بحضور الشهود والأهل</div>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <span class="tl-time" data-i18n="time3">٧:٠٠ م</span>
+          <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-event" data-i18n="event3">حفل الزفاف</div>
+            <div class="tl-desc" data-i18n="desc3">الزفة وتصوير العروسين مع الأهل والأصحاب</div>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <span class="tl-time" data-i18n="time4">٨:٠٠ م</span>
+          <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-event" data-i18n="event4">العشاء</div>
+            <div class="tl-desc" data-i18n="desc4">مائدة عشاء فاخرة مع العائلة والأصدقاء</div>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <span class="tl-time" data-i18n="time5">١٠:٠٠ م</span>
+          <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-event" data-i18n="event5">حفلة الكيك والرقص</div>
+            <div class="tl-desc" data-i18n="desc5">تقطيع كيكة الأفراح والاحتفال مع الجميع</div>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <span class="tl-time" data-i18n="time6">١:٠٠ ص</span>
+          <div class="tl-dot-col"><div class="tl-dot"></div></div>
+          <div class="tl-body">
+            <div class="tl-event" data-i18n="event6">نهاية الاحتفال</div>
+            <div class="tl-desc" data-i18n="desc6">وداع الضيوف وختام ليلة لا تُنسى</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="venue-card reveal">
+        <div class="venue-img-wrap">
+          <div class="venue-img-icon">🏛️</div>
+          <span data-i18n="venuePic">صورة القاعة</span>
+        </div>
+        <div class="venue-info">
+          <div class="venue-name" data-i18n="venueName">قاعة الماسة AL Masa Wedding Hall</div>
+          <div class="venue-addr" data-i18n="venueAddr">راس البر - نادي القوات المسلحة</div>
+          <a class="map-btn" href="https://maps.app.goo.gl/hUnoZBWaX6QyoTvu6?g_st=awb" id="map-link" target="_blank">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span data-i18n="mapLink">الموقع على الخريطة</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ── TRANSLATIONS ── */
+const translations = {
+  ar: {
+    langText: "EN", monogram: "A&R", tapHint: "اضغط لفتح الدعوة",
+    basmala: "بسم الله الرحمن الرحيم", heroLabel: "حفل زفاف",
+    name1: "أحمد", amp: "&", name2: "رحمة",
+    tagline: "لنبدأ الحياة سوياً",
+    dayNum: "٢", monthName: "نوفمبر", yearNum: "٢٠٢٦",
+    scrollDown: "اسكرول داون",
+    cdEyebrow: "العد التنازلي", cdTitle: "العد التنازلي حتى تاريخ الفرح", cdSubtitle: "جهزوا نفسكم للرقص!",
+    days: "أيام", hours: "ساعات", mins: "دقائق", secs: "ثوانٍ",
+    addToCal: "إضافة إلى التقويم",
+    welcomeEyebrow: "أهلاً وسهلاً بكم", welcomeTitle: "يسعدنا أن نُشارككم<br/>فرحة هذا اليوم الجميل",
+    welcomeBody: "بقلوب مليئة بالفرح والامتنان، نتشرف بدعوتكم لتكونوا جزءاً من أجمل لحظات حياتنا. حضوركم هو أثمن هدية نتمناها، فلا يكتمل فرحنا إلا بوجودكم بيننا. نسأل الله أن يجمعنا دائماً على الخير والمحبة.",
+    momentsLabel: "أجمل لحظاتنا", pic1: "صورة ١", pic2: "صورة ٢", pic3: "صورة ٣", pic4: "صورة ٤", pic5: "صورة ٥",
+    progEyebrow: "برنامج الحفلة", progTitle: "تفاصيل اليوم",
+    time1: "٥:٠٠ م", event1: "استقبال الضيوف", desc1: "الترحيب بالمدعوين وتناول المشروبات",
+    time2: "٦:٠٠ م", event2: "العقد الشرعي", desc2: "توقيع عقد الزواج بحضور الشهود والأهل",
+    time3: "٧:٠٠ م", event3: "حفل الزفاف", desc3: "الزفة وتصوير العروسين مع الأهل والأصحاب",
+    time4: "٨:٠٠ م", event4: "العشاء", desc4: "مائدة عشاء فاخرة مع العائلة والأصدقاء",
+    time5: "١٠:٠٠ م", event5: "حفلة الكيك والرقص", desc5: "تقطيع كيكة الأفراح والاحتفال مع الجميع",
+    time6: "١:٠٠ ص", event6: "نهاية الاحتفال", desc6: "وداع الضيوف وختام ليلة لا تُنسى",
+    venuePic: "صورة القاعة", venueName: "قاعة الماسة AL Masa Wedding Hall",
+    venueAddr: "راس البر - نادي القوات المسلحة", mapLink: "الموقع على الخريطة",
+    calLink: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D8%AD%D9%81%D9%84+%D8%B2%D9%81%D8%A7%D9%81+%D8%A3%D8%AD%D9%85%D8%AF+%D9%88%D8%B1%D8%AD%D9%85%D8%A9&dates=20261102T170000/20261103T010000&details=%D9%8A%D8%B3%D8%B9%D8%AF%D9%86%D8%A7+%D8%AD%D8%B6%D9%88%D8%B1%D9%83%D9%85&location=%D8%B1%D8%A7%D8%B3+%D8%A7%D9%84%D8%A8%D8%B1+-+%D9%86%D8%A7%D8%AF%D9%8A+%D8%A7%D9%84%D9%82%D9%88%D8%A7%D8%AA+%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%AD%D8%A9"
+  },
+  en: {
+    langText: "عربي", monogram: "A&R", tapHint: "Tap to Open",
+    basmala: "In the name of God, Most Gracious, Most Merciful", heroLabel: "Wedding Celebration",
+    name1: "Ahmed", amp: "&", name2: "Rahma",
+    tagline: "Let's start our life together",
+    dayNum: "2", monthName: "Nov", yearNum: "2026",
+    scrollDown: "Scroll Down",
+    cdEyebrow: "Countdown", cdTitle: "Countdown to the wedding date", cdSubtitle: "Get ready to dance!",
+    days: "Days", hours: "Hours", mins: "Mins", secs: "Secs",
+    addToCal: "Add to Calendar",
+    welcomeEyebrow: "Welcome", welcomeTitle: "We are delighted to share<br/>the joy of this beautiful day",
+    welcomeBody: "With hearts full of joy and gratitude, we invite you to be part of our most beautiful moments. Your presence is the most precious gift we could wish for.",
+    momentsLabel: "Our Moments", pic1: "Photo 1", pic2: "Photo 2", pic3: "Photo 3", pic4: "Photo 4", pic5: "Photo 5",
+    progEyebrow: "Wedding Program", progTitle: "The Day's Details",
+    time1: "5:00 PM", event1: "Guest Reception", desc1: "Welcoming guests and drinks",
+    time2: "6:00 PM", event2: "Katb El Kitab", desc2: "Signing the marriage contract with family",
+    time3: "7:00 PM", event3: "Wedding Party", desc3: "Zaffa and photos with family and friends",
+    time4: "8:00 PM", event4: "Dinner", desc4: "Luxury dinner with family and friends",
+    time5: "10:00 PM", event5: "Cake & Dancing", desc5: "Cutting the wedding cake and celebrating",
+    time6: "1:00 AM", event6: "End of Celebration", desc6: "Farewell to guests and a night to remember",
+    venuePic: "Venue Photo", venueName: "AL Masa Wedding Hall",
+    venueAddr: "Ras El Bar - Armed Forces Club", mapLink: "Location on Map",
+    calLink: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ahmed+%26+Rahma+Wedding&dates=20261102T170000/20261103T010000&details=We+are+happy+to+have+you&location=Ras+El+Bar+-+Armed+Forces+Club"
+  }
+};
+
+let currentLang = 'ar';
+function toggleLanguage() {
+  currentLang = currentLang === 'ar' ? 'en' : 'ar';
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+  
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(translations[currentLang][key]) {
+      el.innerHTML = translations[currentLang][key];
+    }
+  });
+  
+  // Update calendar link dynamically
+  const calLnk = document.getElementById('cal-link');
+  if(calLnk) calLnk.href = translations[currentLang].calLink;
+
+  tick(); // update countdown numbers
+}
+
+/* ── GATE OPEN ── */
+let gateOpened = false;
+function openGate(){
+  if(gateOpened) return;
+  gateOpened = true;
+  const overlay = document.getElementById('gate-overlay');
+  const inv     = document.getElementById('invitation');
+  overlay.classList.add('open');
+  
+  setTimeout(()=>{
+    inv.style.opacity = '1';
+    document.body.style.overflowY = 'auto';
+    initReveal();
+  }, 1000);
+}
+
+/* ── SMOOTH SCROLL ── */
+function scrollToSec(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ── SCROLL REVEAL ── */
+function initReveal(){
+  const els = document.querySelectorAll('.reveal');
+  const io  = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in') });
+  },{threshold:.13});
+  els.forEach(el=>io.observe(el));
+}
+
+/* ── COUNTDOWN ── */
+const target = new Date('2026-11-02T17:00:00');
+function tick(){
+  const diff = target - Date.now();
+  if(diff<=0){['cd-d','cd-h','cd-m','cd-s'].forEach(id=>document.getElementById(id).textContent='0');return;}
+  const formatNum = n => {
+    let str = String(n).padStart(2,'0');
+    if(currentLang === 'ar') {
+      return str.replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+    }
+    return str;
+  };
+  document.getElementById('cd-d').textContent = formatNum(Math.floor(diff/86400000));
+  document.getElementById('cd-h').textContent = formatNum(Math.floor(diff%86400000/3600000));
+  document.getElementById('cd-m').textContent = formatNum(Math.floor(diff%3600000/60000));
+  document.getElementById('cd-s').textContent = formatNum(Math.floor(diff%60000/1000));
+}
+tick(); setInterval(tick,1000);
+
+/* ── SLIDER ── */
+let curSlide = 0;
+const TOTAL  = 5;
+const INTERVAL = 5000;
+function goSlide(idx){
+  curSlide = (idx+TOTAL)%TOTAL;
+  document.getElementById('slides').style.transform=`translateX(-${curSlide*100}%)`;
+  document.querySelectorAll('.slider-dot').forEach((d,i)=>{
+    d.classList.toggle('active', i===curSlide);
+  });
+}
+setInterval(()=>goSlide(curSlide+1), INTERVAL);
+</script>
+</body>
+</html>
