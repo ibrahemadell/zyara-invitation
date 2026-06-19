@@ -182,26 +182,24 @@ body{background:#0a1118;overflow-x:hidden;font-family:'Cairo',sans-serif}
 .reveal{ opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.in{ opacity: 1; transform: none; }
 /* GUESTBOOK */
-#guestbook{ background: linear-gradient(170deg, #d8e5ec 0%, #eaf2f5 100%); padding: 5rem 2rem 4rem; justify-content: flex-start; min-height: 100svh; }
+#guestbook{ background: linear-gradient(180deg, #d8e5ec 0%, #0a1118 40%, #061116 100%); padding: 5rem 2rem 6rem; justify-content: flex-start; min-height: 100svh; }
+#guestbook .prog-eyebrow{ color: var(--gold); }
+#guestbook .prog-eyebrow::before, #guestbook .prog-eyebrow::after{ background: linear-gradient(90deg, var(--gold-dark), transparent); }
+#guestbook .prog-title{ color: white; }
 .gb-inner{ max-width: 600px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; }
-.gb-form{ background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 8px 40px rgba(17,58,74,.08); display: flex; flex-direction: column; gap: 1.2rem; position: relative; }
-.gb-form input, .gb-form textarea{ width: 100%; padding: 1rem; border: 1px solid var(--sky-soft); border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 1rem; outline: none; transition: border-color .3s; background: #fafcfd; }
-.gb-form input:focus, .gb-form textarea:focus{ border-color: var(--sky-mid); }
+.gb-form{ background: rgba(17,58,74,0.3); border: 1px solid rgba(212,175,55,0.2); border-radius: 16px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 1.2rem; position: relative; backdrop-filter: blur(10px); }
+.gb-form input, .gb-form textarea{ width: 100%; padding: 1rem; border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 1rem; outline: none; transition: all .3s; background: rgba(0,0,0,0.4); color: white; }
+.gb-form input::placeholder, .gb-form textarea::placeholder{ color: rgba(255,255,255,0.4); }
+.gb-form input:focus, .gb-form textarea:focus{ border-color: var(--gold); background: rgba(0,0,0,0.6); }
 .gb-form textarea{ resize: vertical; min-height: 100px; }
-.canvas-wrap{ position: relative; border: 1px dashed var(--sky-soft); border-radius: 8px; background: #fafcfd; overflow: hidden; touch-action: none; }
+.canvas-wrap{ position: relative; border: 1px dashed rgba(212,175,55,0.4); border-radius: 8px; background: rgba(0,0,0,0.4); overflow: hidden; touch-action: none; }
 .canvas-wrap canvas{ display: block; width: 100%; height: 180px; cursor: crosshair; }
-.clear-btn{ position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.9); border: 1px solid var(--sky-soft); padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer; color: var(--text-soft); font-family: 'Cairo', sans-serif; }
+.clear-btn{ position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.6); border: 1px solid rgba(212,175,55,0.4); padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer; color: var(--gold-light); font-family: 'Cairo', sans-serif; transition: all 0.2s; }
+.clear-btn:hover{ background: var(--gold); color: #000; }
 [dir="ltr"] .clear-btn{ left: auto; right: 10px; }
-.gb-submit{ background: linear-gradient(135deg, var(--sky-mid), var(--sky-deep)); color: white; padding: 1rem; border: none; border-radius: 8px; font-size: 1.1rem; font-family: 'Cairo', sans-serif; font-weight: 600; cursor: pointer; transition: transform .2s, box-shadow .2s; }
-.gb-submit:hover{ transform: translateY(-2px); box-shadow: 0 8px 28px rgba(17,58,74,.3); }
-.gb-success{ display: none; text-align: center; color: var(--gold-dark); font-weight: 600; margin-top: 1rem; }
-.gb-messages{ display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
-.gb-msg-card{ background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(17,58,74,.05); border-left: 4px solid var(--gold); }
-[dir="ltr"] .gb-msg-card{ border-left: none; border-right: 4px solid var(--gold); }
-.gb-msg-name{ font-family: 'Amiri', serif; font-size: 1.2rem; color: var(--sky-deep); margin-bottom: 0.5rem; font-weight: bold; }
-.gb-msg-text{ font-size: 0.95rem; color: var(--text-soft); line-height: 1.6; margin-bottom: 1rem; }
-.gb-msg-sign{ height: 60px; object-fit: contain; object-position: right; opacity: 0.8; mix-blend-mode: multiply; }
-[dir="ltr"] .gb-msg-sign{ object-position: left; }
+.gb-submit{ background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: #111; padding: 1rem; border: none; border-radius: 8px; font-size: 1.1rem; font-family: 'Cairo', sans-serif; font-weight: 700; cursor: pointer; transition: transform .2s, box-shadow .2s; }
+.gb-submit:hover{ transform: translateY(-2px); box-shadow: 0 8px 28px rgba(212,175,55,0.3); }
+.gb-success{ display: none; text-align: center; color: var(--gold-light); font-weight: 600; margin-top: 1rem; background: rgba(212,175,55,0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(212,175,55,0.2); }
 @media(max-width:480px){ .cd-grid{ grid-template-columns: repeat(2,1fr); } .cd-num{ font-size: 2rem; } #welcome{ gap: 2.5rem; padding: 3.5rem 1.2rem; } .gb-form{ padding: 1.5rem; } }
 </style>
 </head>
@@ -395,6 +393,7 @@ body{background:#0a1118;overflow-x:hidden;font-family:'Cairo',sans-serif}
               <circle cx="12" cy="10" r="3"/>
             </svg>
             <span data-i18n="mapLink">الموقع على الخريطة</span>
+          </a>
         </div>
       </div>
     </div>
@@ -409,19 +408,16 @@ body{background:#0a1118;overflow-x:hidden;font-family:'Cairo',sans-serif}
         <input type="text" id="gb-name" placeholder="الاسم" data-i18n-ph="gbName">
         <textarea id="gb-msg" placeholder="رسالتك للعروسين" data-i18n-ph="gbMessage"></textarea>
         
-        <div style="font-family:'Cairo', sans-serif; font-size:0.9rem; color:var(--text-soft); margin-bottom:-0.8rem;" data-i18n="gbSignHint">توقيعك بخط اليد:</div>
+        <div style="font-family:'Cairo', sans-serif; font-size:0.9rem; color:rgba(255,255,255,0.6); margin-bottom:-0.8rem;" data-i18n="gbSignHint">توقيعك بخط اليد:</div>
         <div class="canvas-wrap">
           <canvas id="gb-canvas"></canvas>
           <button type="button" class="clear-btn" onclick="clearCanvas()" data-i18n="gbClear">مسح التوقيع</button>
         </div>
         
         <button type="button" class="gb-submit" onclick="submitGuestbook()" data-i18n="gbSubmit">إرسال</button>
-        <div class="gb-success" id="gb-success" data-i18n="gbSuccess">شكراً لك! تمت إضافة رسالتك.</div>
+        <div class="gb-success" id="gb-success" data-i18n="gbSuccess">شكراً لك! تم حفظ رسالتك للعريس.</div>
       </div>
 
-      <div class="gb-messages" id="gb-messages-list">
-        <!-- Messages will be injected here -->
-      </div>
     </div>
   </section>
 
@@ -453,7 +449,7 @@ const translations = {
     venuePic: "صورة القاعة", venueName: "قاعة الماسة AL Masa Wedding Hall",
     venueAddr: "راس البر - نادي القوات المسلحة", mapLink: "الموقع على الخريطة",
     calLink: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D8%AD%D9%81%D9%84+%D8%B2%D9%81%D8%A7%D9%81+%D8%A3%D8%AD%D9%85%D8%AF+%D9%88%D8%B1%D8%AD%D9%85%D8%A9&dates=20261102T170000/20261103T010000&details=%D9%8A%D8%B3%D8%B9%D8%AF%D9%86%D8%A7+%D8%AD%D8%B6%D9%88%D8%B1%D9%83%D9%85&location=%D8%B1%D8%A7%D8%B3+%D8%A7%D9%84%D8%A8%D8%B1+-+%D9%86%D8%A7%D8%AF%D9%8A+%D8%A7%D9%84%D9%82%D9%88%D8%A7%D8%AA+%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%AD%D8%A9",
-    guestbookEyebrow: "سجل الذكريات", guestbookTitle: "دفتر الزوار", gbName: "الاسم", gbMessage: "رسالتك للعروسين", gbSignHint: "توقيعك بخط اليد:", gbClear: "مسح التوقيع", gbSubmit: "إرسال", gbSuccess: "شكراً لك! تمت إضافة رسالتك."
+    guestbookEyebrow: "سجل الذكريات", guestbookTitle: "دفتر الزوار", gbName: "الاسم", gbMessage: "رسالتك للعروسين", gbSignHint: "توقيعك بخط اليد:", gbClear: "مسح التوقيع", gbSubmit: "إرسال", gbSuccess: "شكراً لك! تم حفظ رسالتك للعريس."
   },
   en: {
     langText: "عربي", monogram: "A&R", tapHint: "Tap to Open",
@@ -478,7 +474,7 @@ const translations = {
     venuePic: "Venue Photo", venueName: "AL Masa Wedding Hall",
     venueAddr: "Ras El Bar - Armed Forces Club", mapLink: "Location on Map",
     calLink: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ahmed+%26+Rahma+Wedding&dates=20261102T170000/20261103T010000&details=We+are+happy+to+have+you&location=Ras+El+Bar+-+Armed+Forces+Club",
-    guestbookEyebrow: "Memories", guestbookTitle: "Guestbook", gbName: "Name", gbMessage: "Your Message", gbSignHint: "Your Handwritten Signature:", gbClear: "Clear Signature", gbSubmit: "Submit", gbSuccess: "Thank you! Your message has been added."
+    guestbookEyebrow: "Memories", guestbookTitle: "Guestbook", gbName: "Name", gbMessage: "Your Message", gbSignHint: "Your Handwritten Signature:", gbClear: "Clear Signature", gbSubmit: "Submit", gbSuccess: "Thank you! Your message has been securely saved."
   }
 };
 
@@ -583,7 +579,7 @@ function resizeCanvas() {
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
   ctx.lineWidth = 3;
-  ctx.strokeStyle = '#113a4a';
+  ctx.strokeStyle = '#f3e5ab';
 }
 window.addEventListener('resize', resizeCanvas);
 setTimeout(resizeCanvas, 500); // Give layout time to render
@@ -638,28 +634,7 @@ function submitGuestbook() {
   const successMsg = document.getElementById('gb-success');
   successMsg.style.display = 'block';
   setTimeout(()=>successMsg.style.display = 'none', 4000);
-
-  renderMessages();
 }
-
-function renderMessages() {
-  const list = document.getElementById('gb-messages-list');
-  if(!list) return;
-  let msgs = JSON.parse(localStorage.getItem('guestbook') || '[]');
-  list.innerHTML = '';
-  msgs.forEach(m => {
-    const card = document.createElement('div');
-    card.className = 'gb-msg-card reveal in';
-    let signImg = m.sign ? `<img src="${m.sign}" class="gb-msg-sign" alt="Signature">` : '';
-    card.innerHTML = `
-      <div class="gb-msg-name">${m.name}</div>
-      <div class="gb-msg-text">${m.msg}</div>
-      ${signImg}
-    `;
-    list.appendChild(card);
-  });
-}
-renderMessages();
 
 </script>
 </body>
