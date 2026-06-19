@@ -621,28 +621,59 @@ function submitGuestbook() {
     return;
   }
   
+  const submitBtn = document.querySelector('.gb-submit');
+  const originalBtnText = submitBtn.innerHTML;
+  submitBtn.innerHTML = currentLang === 'ar' ? 'جاري الإرسال...' : 'Sending...';
+  submitBtn.disabled = true;
+
   const blank = document.createElement('canvas');
   blank.width = canvas.width;
   blank.height = canvas.height;
   const signatureData = canvas.toDataURL();
   const isCanvasEmpty = signatureData === blank.toDataURL();
 
-  const msgData = {
-    name, msg,
-    sign: isCanvasEmpty ? null : signatureData,
-    date: new Date().toISOString()
-  };
+  const formData = new FormData();
+  formData.append("access_key", "564d4d7c-f217-417e-bbd8-679fcff237b6");
+  formData.append("subject", "رسالة جديدة في دفتر الزوار من: " + name);
+  formData.append("الاسم", name);
+  formData.append("الرسالة", msg);
 
-  let msgs = JSON.parse(localStorage.getItem('guestbook') || '[]');
-  msgs.unshift(msgData);
-  localStorage.setItem('guestbook', JSON.stringify(msgs));
+  if(!isCanvasEmpty) {
+    canvas.toBlob(function(blob) {
+      formData.append("attachment", blob, "signature.png");
+      sendWeb3Form(formData, submitBtn, originalBtnText);
+    }, 'image/png');
+  } else {
+    sendWeb3Form(formData, submitBtn, originalBtnText);
+  }
+}
 
-  document.getElementById('gb-name').value = '';
-  document.getElementById('gb-msg').value = '';
-  clearCanvas();
-  const successMsg = document.getElementById('gb-success');
-  successMsg.style.display = 'block';
-  setTimeout(()=>successMsg.style.display = 'none', 4000);
+function sendWeb3Form(formData, submitBtn, originalBtnText) {
+  fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      document.getElementById('gb-name').value = '';
+      document.getElementById('gb-msg').value = '';
+      clearCanvas();
+      const successMsg = document.getElementById('gb-success');
+      successMsg.style.display = 'block';
+      setTimeout(()=>successMsg.style.display = 'none', 4000);
+    } else {
+      throw new Error('Web3Forms error');
+    }
+  })
+  .catch(error => {
+    console.error(error);
+    alert(currentLang === 'ar' ? 'حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.' : 'Error sending message. Please try again.');
+  })
+  .finally(() => {
+    submitBtn.innerHTML = originalBtnText;
+    submitBtn.disabled = false;
+  });
 }
 
 </script>
