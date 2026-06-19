@@ -423,7 +423,7 @@ body{background:#0a1118;overflow-x:hidden;font-family:'Cairo',sans-serif}
 
 </main>
 
-<script>
+<script type="module">
 /* ── TRANSLATIONS ── */
 const translations = {
   ar: {
@@ -613,67 +613,66 @@ function clearCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+// ── FIREBASE CONFIG ──
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, push } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDysf9Hw-h9YOX86CzOfH5dEfqu4l8LqNI",
+  authDomain: "zyara-invtation.firebaseapp.com",
+  databaseURL: "https://zyara-invtation-default-rtdb.firebaseio.com",
+  projectId: "zyara-invtation",
+  storageBucket: "zyara-invtation.firebasestorage.app",
+  messagingSenderId: "736722087821",
+  appId: "1:736722087821:web:b6b1ba007d8c7d832797c4"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+
 function submitGuestbook() {
   const name = document.getElementById('gb-name').value.trim();
-  const msg = document.getElementById('gb-msg').value.trim();
-  if(!name || !msg) {
+  const msg  = document.getElementById('gb-msg').value.trim();
+  if (!name || !msg) {
     alert(currentLang === 'ar' ? 'يرجى إدخال الاسم والرسالة.' : 'Please enter your name and message.');
     return;
   }
-  
+
   const submitBtn = document.querySelector('.gb-submit');
   const originalBtnText = submitBtn.innerHTML;
   submitBtn.innerHTML = currentLang === 'ar' ? 'جاري الإرسال...' : 'Sending...';
   submitBtn.disabled = true;
 
   const blank = document.createElement('canvas');
-  blank.width = canvas.width;
+  blank.width  = canvas.width;
   blank.height = canvas.height;
   const signatureData = canvas.toDataURL();
   const isCanvasEmpty = signatureData === blank.toDataURL();
 
-  const formData = new FormData();
-  formData.append("access_key", "564d4d7c-f217-417e-bbd8-679fcff237b6");
-  formData.append("subject", "رسالة جديدة في دفتر الزوار من: " + name);
-  formData.append("الاسم", name);
-  formData.append("الرسالة", msg);
+  const msgData = {
+    name,
+    msg,
+    signature: isCanvasEmpty ? null : signatureData,
+    date: new Date().toISOString()
+  };
 
-  if(!isCanvasEmpty) {
-    canvas.toBlob(function(blob) {
-      formData.append("attachment", blob, "signature.png");
-      sendWeb3Form(formData, submitBtn, originalBtnText);
-    }, 'image/png');
-  } else {
-    sendWeb3Form(formData, submitBtn, originalBtnText);
-  }
-}
-
-function sendWeb3Form(formData, submitBtn, originalBtnText) {
-  fetch("https://api.web3forms.com/submit", {
-    method: "POST",
-    body: formData
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
+  push(ref(db, 'messages'), msgData)
+    .then(() => {
       document.getElementById('gb-name').value = '';
-      document.getElementById('gb-msg').value = '';
+      document.getElementById('gb-msg').value  = '';
       clearCanvas();
-      const successMsg = document.getElementById('gb-success');
-      successMsg.style.display = 'block';
-      setTimeout(()=>successMsg.style.display = 'none', 4000);
-    } else {
-      throw new Error('Web3Forms error');
-    }
-  })
-  .catch(error => {
-    console.error(error);
-    alert(currentLang === 'ar' ? 'حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.' : 'Error sending message. Please try again.');
-  })
-  .finally(() => {
-    submitBtn.innerHTML = originalBtnText;
-    submitBtn.disabled = false;
-  });
+      const successEl = document.getElementById('gb-success');
+      successEl.style.display = 'block';
+      setTimeout(() => successEl.style.display = 'none', 4000);
+    })
+    .catch(err => {
+      console.error(err);
+      alert(currentLang === 'ar' ? 'حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.' : 'Error sending. Please try again.');
+    })
+    .finally(() => {
+      submitBtn.innerHTML = originalBtnText;
+      submitBtn.disabled  = false;
+    });
 }
 
 </script>

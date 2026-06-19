@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Guestbook — Ahmed &amp; Rahma</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:         #09090f;
+  --surface:    #111120;
+  --border:     rgba(212,175,55,0.15);
+  --gold:       #d4af37;
+  --gold-light: #f3e5ab;
+  --gold-dark:  #9b7e21;
+  --text:       #e8e8f0;
+  --text-soft:  rgba(232,232,240,0.5);
+  --red:        #ff6b6b;
+}
+html{height:100%}
+body{
+  min-height:100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+body::before{
+  content:'';
+  position:fixed; inset:0; z-index:0;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(212,175,55,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.12) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 70%, rgba(212,175,55,0.18) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 85%, rgba(255,255,255,0.08) 0%, transparent 100%),
+    radial-gradient(2px 2px at 10% 60%, rgba(212,175,55,0.12) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 50%, rgba(255,255,255,0.1) 0%, transparent 100%);
+  pointer-events:none;
+}
+
+/* HEADER */
+.header{
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(9,9,15,0.85); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 1.2rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header-logo{
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; color: var(--gold);
+  letter-spacing: 0.05em;
+}
+.header-sub{
+  font-size: 0.7rem; letter-spacing: 0.3em; color: var(--text-soft);
+  text-transform: uppercase; font-weight: 300; margin-top: 0.15rem;
+}
+.count-badge{
+  background: rgba(212,175,55,0.08); border: 1px solid var(--border);
+  border-radius: 99px; padding: 0.35rem 0.9rem;
+  font-size: 0.78rem; color: var(--gold-light);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.live-dot{
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold); animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot{ 0%,100%{opacity:0.4;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }
+
+/* MAIN */
+main{ position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+
+/* HERO */
+.hero{ text-align: center; padding: 2.5rem 0 3.5rem; }
+.hero-eyebrow{ font-size: 0.7rem; letter-spacing: 0.35em; color: var(--gold); text-transform: uppercase; font-weight: 300; margin-bottom: 0.8rem; }
+.hero-title{
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  background: linear-gradient(135deg, #fff 0%, var(--gold-light) 50%, var(--gold) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 0.6rem;
+}
+.hero-sub{ color: var(--text-soft); font-size: 0.9rem; font-weight: 300; }
+
+/* DIVIDER */
+.gold-divider{ width: 80px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 2rem auto; }
+
+/* STATES */
+.loading{ display: flex; flex-direction: column; align-items: center; gap: 1.5rem; padding: 5rem 2rem; color: var(--text-soft); }
+.spinner{ width: 38px; height: 38px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.85s linear infinite; }
+@keyframes spin{ to{transform:rotate(360deg)} }
+
+.empty-state{ display: none; flex-direction: column; align-items: center; gap: 1rem; padding: 5rem 2rem; text-align: center; color: var(--text-soft); }
+.empty-state svg{ opacity: 0.25; margin-bottom: 0.5rem; }
+.empty-state h3{ font-family:'Playfair Display', serif; font-size:1.5rem; color:var(--text); font-weight:400; }
+.empty-state p{ font-size: 0.88rem; font-weight: 300; max-width: 280px; line-height: 1.7; }
+
+.error-banner{ display: none; background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.25); border-radius: 12px; padding: 1.2rem 1.5rem; color: var(--red); font-size: 0.88rem; margin-bottom: 2rem; align-items: center; gap: 0.8rem; }
+
+/* GRID */
+.grid{ display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.5rem; }
+
+/* CARD */
+.card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  animation: fadeUp 0.5s ease forwards;
+  opacity: 0;
+}
+@keyframes fadeUp{ from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+.card:hover{
+  transform: translateY(-5px);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(212,175,55,0.25);
+  border-color: rgba(212,175,55,0.25);
+}
+.card-header{
+  background: linear-gradient(135deg, rgba(212,175,55,0.07), rgba(212,175,55,0.02));
+  border-bottom: 1px solid var(--border);
+  padding: 1.2rem 1.4rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.avatar{
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; color: #111; font-weight: 600;
+  flex-shrink: 0;
+}
+.card-name{ font-size: 1rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-date{ font-size: 0.7rem; color: var(--text-soft); margin-top: 0.2rem; font-weight: 300; }
+.card-body{ padding: 1.4rem; display: flex; flex-direction: column; gap: 1.2rem; }
+.card-message{
+  font-size: 0.92rem; line-height: 1.85; color: rgba(232,232,240,0.78);
+  font-weight: 300; font-style: italic;
+  border-left: 2px solid rgba(212,175,55,0.3);
+  padding-left: 0.9rem;
+}
+.signature-label{ font-size: 0.62rem; letter-spacing: 0.22em; color: var(--text-soft); text-transform: uppercase; margin-bottom: 0.5rem; }
+.signature-wrap{ background: rgba(255,255,255,0.96); border-radius: 8px; padding: 0.7rem; border: 1px solid rgba(212,175,55,0.15); }
+.signature-img{ width: 100%; height: auto; display: block; border-radius: 4px; }
+.no-sig{ display: flex; align-items: center; justify-content: center; gap: 0.5rem; height: 50px; color: var(--text-soft); font-size: 0.78rem; opacity: 0.6; }
+
+@media(max-width:600px){
+  .header{ padding: 1rem 1.2rem; }
+  main{ padding: 2rem 1.2rem 4rem; }
+  .grid{ grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div>
+    <div class="header-logo">A &amp; R</div>
+    <div class="header-sub">Guestbook Dashboard</div>
+  </div>
+  <div class="count-badge">
+    <span class="live-dot"></span>
+    <span id="msg-count">0</span> messages
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <p class="hero-eyebrow">Messages from your guests</p>
+    <h1 class="hero-title">Guestbook</h1>
+    <p class="hero-sub">November 2, 2026 · AL Masa Wedding Hall</p>
+  </div>
+  <div class="gold-divider"></div>
+
+  <div class="error-banner" id="error-banner">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span id="error-text">Could not connect to Firebase. Make sure Realtime Database rules allow read.</span>
+  </div>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <span>Loading messages…</span>
+  </div>
+
+  <div class="empty-state" id="empty-state">
+    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+    <h3>No messages yet</h3>
+    <p>Your guests' messages will appear here as soon as they submit them.</p>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</main>
+
+<script type="module">
+import { initializeApp }              from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyDysf9Hw-h9YOX86CzOfH5dEfqu4l8LqNI",
+  authDomain:        "zyara-invtation.firebaseapp.com",
+  databaseURL:       "https://zyara-invtation-default-rtdb.firebaseio.com",
+  projectId:         "zyara-invtation",
+  storageBucket:     "zyara-invtation.firebasestorage.app",
+  messagingSenderId: "736722087821",
+  appId:             "1:736722087821:web:b6b1ba007d8c7d832797c4"
+};
+
+const app         = initializeApp(firebaseConfig);
+const db          = getDatabase(app);
+const grid        = document.getElementById('grid');
+const loading     = document.getElementById('loading');
+const emptyState  = document.getElementById('empty-state');
+const countEl     = document.getElementById('msg-count');
+const errorBanner = document.getElementById('error-banner');
+
+function formatDate(iso) {
+  try {
+    return new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit', month: 'short', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    }).format(new Date(iso));
+  } catch { return '—'; }
+}
+
+function getInitials(name = '') {
+  return name.trim().split(/\s+/).slice(0, 2).map(w => w[0]?.toUpperCase() || '').join('');
+}
+
+function createCard(data, index) {
+  const { name = 'Guest', msg = '', signature, date } = data;
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.style.animationDelay = `${index * 80}ms`;
+
+  const sigHtml = signature
+    ? `<div>
+         <div class="signature-label">✦ Handwritten signature</div>
+         <div class="signature-wrap">
+           <img class="signature-img" src="${signature}" alt="Signature" loading="lazy"/>
+         </div>
+       </div>`
+    : `<div class="no-sig">
+         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+         No signature
+       </div>`;
+
+  card.innerHTML = `
+    <div class="card-header">
+      <div class="avatar">${getInitials(name)}</div>
+      <div style="flex:1;min-width:0">
+        <div class="card-name">${name}</div>
+        <div class="card-date">${formatDate(date)}</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-message">${msg}</p>
+      ${sigHtml}
+    </div>
+  `;
+  return card;
+}
+
+onValue(ref(db, 'messages'), (snapshot) => {
+  loading.style.display = 'none';
+  grid.innerHTML = '';
+
+  const data = snapshot.val();
+  if (!data) {
+    emptyState.style.display = 'flex';
+    countEl.textContent = '0';
+    return;
+  }
+
+  emptyState.style.display = 'none';
+  const entries = Object.values(data).reverse();
+  countEl.textContent = entries.length;
+  entries.forEach((entry, i) => grid.appendChild(createCard(entry, i)));
+
+}, (error) => {
+  loading.style.display = 'none';
+  errorBanner.style.display = 'flex';
+  document.getElementById('error-text').textContent =
+    'Firebase error: ' + error.message;
+  console.error(error);
+});
+</script>
+</body>
+</html>
